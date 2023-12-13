@@ -46,8 +46,8 @@ spec:
             memory: "1Gi"
             cpu: "1"
           requests:
-            memory: "300Mi"
-            cpu: "250m"
+            memory: "150Mi"
+            cpu: "125m"
         ports:
         - containerPort: 3306
         securityContext:
