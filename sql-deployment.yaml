@@ -60,6 +60,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: cloudsql-db
+  namespace: proxy-sql
 spec:
   selector:
     app: cloudsql-proxy
