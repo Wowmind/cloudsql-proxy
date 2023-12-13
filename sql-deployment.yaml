@@ -50,27 +50,28 @@ spec:
             cpu: "125m"
         ports:
         - containerPort: 3306
-          hostPort: 3307
         securityContext:
           runAsNonRoot: true
       volumes:
         - name: cloudsql-instance-credentials
           secret:
             secretName: cloudsql-instance-credentials
+        - name: cloudsql
+          emptyDir: {}
+            
 ---
-
-
 apiVersion: v1
 kind: Service
 metadata:
-  name: cloudsql-services
-spec:
+  name: cloudsql-db
   type: LoadBalancer
   selector:
     app: cloudsql-proxy
   ports:
-  - port: 3306
+  - name: cloudsql
+    ports: 3306
     targetPort: 3306
+    
   
 
             
