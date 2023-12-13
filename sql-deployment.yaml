@@ -43,11 +43,8 @@ spec:
                 name: cloudsql-db-credentials
         resources:
           limits:
-            memory: "1Gi"
-            cpu: "1"
-          requests:
-            memory: "150Mi"
-            cpu: "125m"
+            memory: "128Mi"
+            cpu: "400m"
         ports:
         - containerPort: 3306
         securityContext:
@@ -56,21 +53,20 @@ spec:
         - name: cloudsql-instance-credentials
           secret:
             secretName: cloudsql-instance-credentials
-        - name: cloudsql
-          emptyDir: {}
-            
+       
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: cloudsql-db
-  type: LoadBalancer
+spec:
   selector:
     app: cloudsql-proxy
   ports:
-  - name: cloudsql
-    ports: 3306
+  - port: 3306
     targetPort: 3306
+    protocol : TCP 
+  
     
   
 
