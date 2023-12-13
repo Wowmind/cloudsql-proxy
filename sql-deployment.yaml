@@ -19,7 +19,6 @@ spec:
           - "/cloud_sql_proxy"
           - "instances=ci-cd-404512:us-central1:cloud-rmd-db=tcp:0.0.0.0:3306"
           - "-credential_file=/secrets/cloudsql/credentials.json"
-          - "ip_address_types=PRIVATE"
         volumeMounts:
           - mountPath: /secrets/cloudsql
             name: cloudsql-instance-credentials
