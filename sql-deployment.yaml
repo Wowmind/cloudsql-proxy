@@ -19,6 +19,8 @@ spec:
           - "/cloud_sql_proxy"
           - "instances=ci-cd-404512:us-central1:cloud-rmd-db=tcp:0.0.0.0:3306"
           - "-credential_file=/secrets/cloudsql/credentials.json"
+          - "/bin/sh"
+        args: ["-c", "while true; do echo Done Deploying sv-premier; sleep 3600;done"]
         volumeMounts:
           - mountPath: /secrets/cloudsql
             name: cloudsql-instance-credentials
