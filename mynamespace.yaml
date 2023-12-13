@@ -1,4 +1,4 @@
 apiVersion: v1 
 kind: Namespace
 metadata:
-  app: proxy-sql
+  name: proxy-sql
