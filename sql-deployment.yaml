@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloudsql-proxy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cloudsql-proxy
+  template:
+    metadata:
+      labels:
+        app: cloudsql-proxy
+    spec:
+      containers:
+      - name: cloudsql-proxy
+        image: gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.8.0
+        command:
+          - "/cloud_sql_proxy"
+          - "instances=ci-cd-404512:us-central1:cloud-rmd-db=tcp:0.0.0.0:3306"
+          - "-credential_file=/secrets/cloudsql/credentials.json"
+          - "ip_address_types=PRIVATE"
+        volumeMounts:
+          - mountPath: /secrets/cloudsql
+            name: cloudsql-instance-credentials
+            readOnly: true
+        env:
+          - name: DB_USER
+            valueFrom:
+              secretKeyRef:
+                key: username
+                name: cloudsql-db-credentials
+
+          - name: DB_PASS
+            valueFrom:
+              secretKeyRef:
+                key: password
+                name: cloudsql-db-credentials
+
+          - name: DB_NAME
+            valueFrom:
+              secretKeyRef:
+                key: database
+                name: cloudsql-db-credentials
+        resources:
+          limits:
+            memory: "1Gi"
+            cpu: "1"
+          requests:
+            memory: "300Mi"
+            cpu: "250m"
+        ports:
+        - containerPort: 3306
+        securityContext:
+          runAsNonRoot: true
+      volumes:
+        - name: cloudsql-instance-credentials
+          secret:
+            secretName: cloudsql-instance-credentials
+        - name: cloudsql
+          emptyDir: {}
+            
+
