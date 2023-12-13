@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: cloudsql-proxy
-        image: gcr.io/cloud-sql-connectors/cloud-sql-proxy:latest
+        image: gcr.io/cloudsql-docker/gce-proxy:1.17
         command:
           - "/cloud_sql_proxy"
           - "instances=ci-cd-404512:us-central1:cloud-rmd-db=tcp:0.0.0.0:3306"
@@ -57,7 +57,5 @@ spec:
         - name: cloudsql-instance-credentials
           secret:
             secretName: cloudsql-instance-credentials
-        - name: cloudsql
-          emptyDir: {}
             
 
